@@ -1,0 +1,26 @@
+.card {
+    margin-bottom: 20px; /* Space between cards */
+    padding: 15px; /* Add internal spacing within each card */
+    border: 1px solid #ddd; /* Subtle border for clarity */
+    border-radius: 5px; /* Rounded corners for cards */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+}
+
+.card-title {
+    margin-bottom: 10px; /* Add space below the title */
+    font-size: 20px;
+    color: #007bff; /* Primary color for the title */
+    font-weight: bold;
+}
+
+.list-unstyled li {
+    margin-bottom: 5px; /* Add space between list items */
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 3px;
+    padding: 8px 12px;
+    margin-top: 10px;
+}
