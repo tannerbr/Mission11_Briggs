@@ -1,1 +1,11 @@
 .vs/
+*.wsuo
+*.sqlite
+.vscode/
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.sln
+*.cache

@@ -1,0 +1,56 @@
+{
+    "routes": [
+
+        {
+            "route": "/*",
+            "serve": "/index.html",
+            "statusCode": 200
+        },
+
+      {
+        "path": "/",
+        "method": "GET",
+        "description": "Displays the BooksPage where users can view all available books."
+      },
+      {
+        "path": "/addBook/:title/:bookId",
+        "method": "GET",
+        "description": "Displays the AddBookPage for adding a new book with the specified title and book ID."
+      },
+      {
+        "path": "/cart",
+        "method": "GET",
+        "description": "Displays the CartPage where users can view and manage their selected books in the cart."
+      },
+      {
+        "path": "/adminBooks",
+        "method": "GET",
+        "description": "Displays the AdminBooksPage for managing books (CRUD operations)."
+      },
+      {
+        "path": "/api/book/AllBooks",
+        "method": "GET",
+        "description": "Fetches a paginated list of books. Optional query parameters include 'pageSize', 'pageNum', and 'category'."
+      },
+      {
+        "path": "/api/book/GetBookCategory",
+        "method": "GET",
+        "description": "Fetches a distinct list of book categories."
+      },
+      {
+        "path": "/api/book/AddBook",
+        "method": "POST",
+        "description": "Adds a new book to the database. Expects a JSON payload matching the Book model."
+      },
+      {
+        "path": "/api/book/Update/{bookID}",
+        "method": "PUT",
+        "description": "Updates the details of an existing book. Requires a book ID as a URL parameter and a JSON payload."
+      },
+      {
+        "path": "/api/book/Delete/{bookID}",
+        "method": "DELETE",
+        "description": "Deletes a book from the database. Requires a book ID as a URL parameter."
+      }
+    ]
+  }
