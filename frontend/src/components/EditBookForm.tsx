@@ -1,24 +1,15 @@
 import { useState } from 'react';
 import { Book } from '../types/Book';
-import { AddBook } from '../api/BooksAPI';
+import { updateBook } from "../api/BooksAPI";
 
-interface NewBookFormProps {
+interface EditBookFormProps {
+    book: Book;
     onSuccess: () => void;
     onCancel: () => void;
 }
 
-const NewBookForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
-    const [formData, setFormData] = useState<Book>({
-        bookID: 0,        // Book's unique identifier
-        title: '',        // Title of the book
-        author: '',       // Author of the book
-        publisher: '',    // Publisher name
-        classification: '', // Classification/category of the book
-        category: '',      // Category of the book
-        isbn: '',         // ISBN of the book
-        pageCount: '',     // Total number of pages (fixed type to number)
-        price: 0,         // Price of the book
-    });
+const EditBookForm = ({ book, onSuccess, onCancel }: EditBookFormProps) => {
+    const [formData, setFormData] = useState<Book>({...book});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -32,7 +23,7 @@ const NewBookForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await AddBook(formData); // Ensure `addBook` is implemented elsewhere
+            await updateBook(formData.bookID, formData); // Ensure `addBook` is implemented elsewhere
             onSuccess(); // Call the success callback to refresh the book list
         } catch (error) {
             console.error('Failed to add book:', error);
@@ -168,4 +159,4 @@ const NewBookForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
     );
 };
 
-export default NewBookForm;
+export default EditBookForm;

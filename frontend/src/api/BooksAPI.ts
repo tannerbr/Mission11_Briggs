@@ -5,7 +5,7 @@ interface FetchBooksResponse {
     totalNumBooks: number;
 }
 
-const API_URL = 'https://localhost:5000/api/book';
+const API_URL = 'https://bookproject-briggs-backend.azurewebsites.net/api/book';
 
 export const fetchBooks = async (
     pageSize: number,
@@ -49,4 +49,40 @@ export const AddBook = async (newBook: Book): Promise<Book> => {
         console.error("Error adding book:", error);
         throw error;
     }
-}
+}; 
+
+export const updateBook = async (bookId: number, updatedBook: Book) : Promise<Book> => {
+    try {
+        const response = await fetch(`${API_URL}/Update/${bookId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedBook),
+        });
+        return await response.json();
+
+    } catch(error) {
+        console.error('Error updating book:', error)
+        throw error;
+    }
+};
+
+
+export const deleteBook = async (bookId: number): Promise<void> => {
+    try {
+        const response = await fetch(`${API_URL}/Delete/${bookId}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to delete book. HTTP Status: ${response.status}`);
+        }
+
+        // No need to parse JSON if backend returns no content
+        console.log(`Book with ID ${bookId} successfully deleted.`);
+    } catch (error) {
+        console.error("Error deleting book:", error);
+        throw error; // Let calling function handle the error
+    }
+};

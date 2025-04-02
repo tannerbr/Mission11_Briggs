@@ -1,39 +1,55 @@
 import { useEffect, useState } from "react";
 import { Book } from "../types/Book";
-import { fetchBooks } from "../api/BooksAPI";
+import { deleteBook, fetchBooks } from "../api/BooksAPI";
 import Pagination from "../components/Pagination";
 import NewBookForm from "../components/NewBookForm";
+import EditBookForm from "../components/EditBookForm";
 
 const AdminBooksPage = () => {
     const [books, setBooks] = useState<Book[]>([]);
-    const [error, setError] = useState<string | null>(null); // State to store error messages
-    const [loading, setLoading] = useState<boolean>(true); // State to manage loading state
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     const [pageSize, setPageSize] = useState<number>(10);
     const [pageNum, setPageNum] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
-    const [showForm, setShowForm] = useState<boolean>(false); // State to manage form visibility
+    const [showForm, setShowForm] = useState<boolean>(false);
+    const [editingBook, setEditingBook] = useState<Book | null>(null);
 
     useEffect(() => {
         const loadBooks = async () => {
             try {
-                const data = await fetchBooks(pageSize, pageNum, []); // Fetch books without category filter
-                setTotalPages(Math.ceil(data.totalNumBooks / pageSize)); // Calculate total pages based on total number of books
+                const data = await fetchBooks(pageSize, pageNum, []);
+                setTotalPages(Math.ceil(data.totalNumBooks / pageSize));
                 setBooks(data.books);
             } catch (error) {
-                setError((error as Error).message); // Set error message if fetching fails
-            }
-            finally {
-                setLoading(false); // Set loading to false after fetching
+                setError((error as Error).message);
+            } finally {
+                setLoading(false);
             }
         };
         loadBooks();
     }, [pageSize, pageNum]);
 
+
+    const handleDelete = async (bookID: number) => {
+        const confirmDelete = window.confirm(
+          'Are you sure you want to delete this project?'
+        );
+        if (!confirmDelete) return;
+      
+        try {
+          await deleteBook(bookID);
+          setBooks(books.filter((book) => book.bookID !== bookID));
+        } catch (error) {
+          alert('Failed to delete book. Please try again.');
+        }
+      };
+
     if (loading) {
-        return <div>Loading books...</div>; // Display loading message
+        return <div>Loading books...</div>;
     }
     if (error) {
-        return <div className="text-red-500">Error: {error}</div>; // Display error message
+        return <div className="text-red-500">Error: {error}</div>;
     }
 
     return (
@@ -41,18 +57,29 @@ const AdminBooksPage = () => {
             <h1>Admin - Books</h1>
 
             {!showForm && (
-                <button className="btn btn-primary" onClick={() => setShowForm(true)}>Add New Book</button>
+                <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+                    Add New Book
+                </button>
             )}
 
             {showForm && (
                 <NewBookForm
                     onSuccess={() => {
-                    setShowForm(false);
-                    fetchBooks(pageSize, pageNum, []).then((data) => 
-                        setBooks(data.books)
-                    );
+                        setShowForm(false);
+                        fetchBooks(pageSize, pageNum, []).then((data) => setBooks(data.books));
                     }}
                     onCancel={() => setShowForm(false)}
+                />
+            )}
+
+            {editingBook && (
+                <EditBookForm
+                    book={editingBook}
+                    onSuccess={() => {
+                        setEditingBook(null);
+                        fetchBooks(pageSize, pageNum, []).then((data) => setBooks(data.books));
+                    }}
+                    onCancel={() => setEditingBook(null)}
                 />
             )}
 
@@ -81,27 +108,36 @@ const AdminBooksPage = () => {
                             <td>{book.pageCount}</td>
                             <td>${book.price.toFixed(2)}</td>
                             <td>
-                                {/* Edit Button */}
-                                <button className="btn btn-primary" onClick={() => console.log(`Edit Book ${book.bookID}`)}>Edit</button>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => setEditingBook(book)}
+                                >
+                                    Edit
+                                </button>
                             </td>
                             <td>
-                                {/* Delete Button */}
-                                <button className="btn btn-danger" onClick={() => console.log(`Delete Book ${book.bookID}`)}>Delete</button>
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => handleDelete(book.bookID)}
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            <Pagination 
-                currPage={pageNum} 
-                totalPages={totalPages} 
-                pageSize={pageSize} 
+            <Pagination
+                currPage={pageNum}
+                totalPages={totalPages}
+                pageSize={pageSize}
                 onPageChange={setPageNum}
                 onPageSizeChange={(newSize) => {
                     setPageSize(newSize);
-                    setPageNum(1); // Reset to first page when page size changes
-                }}/>
+                    setPageNum(1);
+                }}
+            />
         </div>
     );
 };
