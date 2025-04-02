@@ -72,3 +72,4 @@ C:\Users\tanne\OneDrive\Desktop\IS 413\Mission11_Briggs\backend\BookProject.API\
 C:\Users\tanne\OneDrive\Desktop\IS 413\Mission11_Briggs\backend\BookProject.API\obj\Debug\net9.0\BookProject.API.genruntimeconfig.cache
 C:\Users\tanne\OneDrive\Desktop\IS 413\Mission11_Briggs\backend\BookProject.API\obj\Debug\net9.0\ref\BookProject.API.dll
 C:\Users\tanne\OneDrive\Desktop\IS 413\Mission11_Briggs\backend\BookProject.API\obj\Debug\net9.0\BookProject.API.sourcelink.json
+C:\Users\tanne\OneDrive\Desktop\IS 413\Mission11_Briggs\backend\BookProject.API\bin\Debug\net9.0\Bookstore.sqlite

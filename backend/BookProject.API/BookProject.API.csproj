@@ -12,4 +12,10 @@
     <PackageReference Include="Microsoft.EntityframeworkCore.sqlite" Version="9.*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Bookstore.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
