@@ -8,7 +8,7 @@ function CategoryFilter({selectedCategories, setSelectedCategories,}:
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('https://localhost:5000/api/book/GetBookCategory'); // chech if API is needed 
+                const response = await fetch('https://bookproject-briggs-backend.azurewebsites.net/api/book/GetBookCategory'); // chech if API is needed 
                 const data = await response.json();
                 console.log('Fetched categoires', data);
 
